@@ -84,8 +84,44 @@ body { background: var(--bg); color: var(--cream); font-family: 'Inter', system-
 .btn-sm:hover { border-color: var(--teal-bright); color: var(--teal-bright); }
 .btn-sm:focus-visible { outline: 2px solid var(--teal-bright); }
 
+/* ── ACTION BAR (sticky bottom CTA after generating) ── */
+#action-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 500;
+  background: #0E211D; border-top: 2px solid var(--teal-bright, #4AC2A8);
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; padding: 13px 50px 13px 20px;
+  box-shadow: 0 -4px 28px rgba(0,0,0,0.5);
+}
+#action-bar[hidden] { display: none !important; }
+#action-bar .ab-label {
+  font-size: 11px; color: rgba(242,238,225,.45); white-space: nowrap;
+  font-family: 'Inter', sans-serif; margin-right: 6px; flex-shrink: 0;
+}
+.ab-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 20px; border-radius: 7px; white-space: nowrap;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: 1.5px solid transparent; transition: filter .15s;
+}
+.ab-primary { background: var(--teal-bright, #4AC2A8); color: #0E211D; }
+.ab-secondary { background: transparent; color: var(--cream, #F2EEE1); border-color: rgba(242,238,225,.2); }
+.ab-btn:hover { filter: brightness(1.12); }
+.ab-btn:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+#action-bar .ab-dismiss {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: rgba(242,238,225,.3);
+  font-size: 17px; cursor: pointer; padding: 8px; line-height: 1;
+}
+#action-bar .ab-dismiss:hover { color: rgba(242,238,225,.65); }
+@media (max-width: 640px) {
+  #action-bar { padding: 10px 44px 10px 10px; gap: 7px; }
+  #action-bar .ab-label { display: none; }
+  .ab-btn { flex: 1; justify-content: center; padding: 10px 8px; font-size: 12px; }
+}
+@media print { #action-bar { display: none !important; } }
+
 /* ── PREVIEW AREA ── */
-.preview-wrap { padding: 32px 24px 80px; display: flex; flex-direction: column; align-items: center; }
+.preview-wrap { padding: 32px 24px 100px; display: flex; flex-direction: column; align-items: center; }
 .toolbar { width: 100%; max-width: 760px; display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
 .toolbar button { background: var(--bg3); color: var(--cream); border: 1px solid rgba(242,238,225,.2); border-radius: 6px; padding: 9px 14px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
 .toolbar button:hover { border-color: var(--teal-bright); color: var(--teal-bright); }
@@ -535,6 +571,14 @@ label.fi-check input[type="checkbox"] {
   </div>
 
 </main>
+</div>
+
+<div id="action-bar" hidden>
+  <span class="ab-label">Plantilla lista —</span>
+  <button class="ab-btn ab-primary" onclick="abrirWizard()">✏ Rellenar</button>
+  <button class="ab-btn ab-primary" onclick="imprimir()">🖨 Imprimir / PDF</button>
+  <button class="ab-btn ab-secondary" onclick="descargarDoc()">⬇ Descargar .doc</button>
+  <button class="ab-dismiss" onclick="this.parentElement.setAttribute('hidden','')" aria-label="Cerrar barra de acciones">✕</button>
 </div>
 
 <div id="wizard" class="wiz" hidden></div>
@@ -1215,7 +1259,8 @@ function generar() {
   btnFill.classList.remove('fill-active');
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  paper.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  document.getElementById('action-bar').removeAttribute('hidden');
+  document.getElementById('toolbar').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
   announce(mode === 'en' ? 'Template generated. Ready to print.' : 'Plantilla generada. Lista para imprimir.');
 }
 
@@ -1423,6 +1468,7 @@ function abrirWizard() {
   wizStep = 0;
   wizSections = buildWizSections();
   document.getElementById('wizard').removeAttribute('hidden');
+  document.getElementById('action-bar').setAttribute('hidden', '');
   document.body.style.overflow = 'hidden';
   renderWizard();
 }
@@ -1433,6 +1479,9 @@ function cerrarWizard(askConfirm) {
     : '¿Cerrar el asistente? Los datos no aplicados al formulario se perderán.')) return;
   document.getElementById('wizard').setAttribute('hidden', '');
   document.body.style.overflow = '';
+  if (document.getElementById('paper').classList.contains('visible')) {
+    document.getElementById('action-bar').removeAttribute('hidden');
+  }
 }
 
 function renderWizard() {
