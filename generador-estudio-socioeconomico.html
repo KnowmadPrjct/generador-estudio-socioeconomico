@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Generador de Estudio Socioeconómico</title>
 <!-- Google Fonts via <link> (not @import) to avoid render-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
   --cream-dim: #B9C7C2;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
 body { background: var(--bg); color: var(--cream); font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
 
 /* ── APP HEADER ── */
@@ -335,8 +335,29 @@ label.fi-check input[type="checkbox"] {
 .wiz-review-row { display:flex; gap:10px; font-size:12px; padding:3px 0; }
 .wiz-review-label { color:#708080; min-width:150px; flex-shrink:0; }
 .wiz-review-val { color:#111; word-break:break-word; }
+/* Hamburger button — hidden on desktop, shown on mobile */
+.wiz-menu-btn {
+  display: none;
+  background: none; border: none; color: #e8f5e9;
+  font-size: 20px; line-height: 1; cursor: pointer;
+  padding: 4px 8px; flex-shrink: 0; border-radius: 4px;
+}
+.wiz-menu-btn:hover { background: rgba(255,255,255,.1); }
+/* Slide-in drawer (mobile nav panel) */
+.wiz-drawer-backdrop {
+  position: absolute; inset: 0; z-index: 10;
+  background: rgba(0,0,0,0.42);
+}
+.wiz-drawer-backdrop[hidden] { display: none !important; }
+.wiz-drawer {
+  position: absolute; top: 0; left: 0; bottom: 0; z-index: 11;
+  width: 230px; background: #fff; overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.22); padding: 8px 0;
+}
+.wiz-drawer[hidden] { display: none !important; }
 @media (max-width:640px) {
   .wiz-sidebar { display:none; }
+  .wiz-menu-btn { display: flex; align-items: center; }
   .wiz-content { padding:12px 14px; }
   .wiz-card { padding:16px 14px; }
   .wiz-fieldrow { flex-direction:column; gap:4px; }
@@ -1580,10 +1601,15 @@ function renderWizard() {
   footer += '<button class="wiz-btn wiz-btn-danger" onclick="cerrarWizard(true)">✕ ' + T('Cerrar','Close') + '</button>';
 
   wiz.innerHTML =
-    '<div class="wiz-bar"><span class="wiz-bar-title">' + esc(stepTitle) + '</span>' +
+    '<div class="wiz-bar">' +
+    '<button class="wiz-menu-btn" onclick="wizToggleDrawer()" aria-label="' + T('Ver secciones','View sections') + '">☰</button>' +
+    '<span class="wiz-bar-title">' + esc(stepTitle) + '</span>' +
     '<span class="wiz-bar-step">' + (wizStep + 1) + ' / ' + total + '</span></div>' +
     '<div class="wiz-progress"><div class="wiz-progress-fill" style="width:' + pct + '%"></div></div>' +
-    '<div class="wiz-body"><div class="wiz-sidebar">' + sidebar + '</div>' +
+    '<div class="wiz-body">' +
+    '<div class="wiz-drawer-backdrop" hidden onclick="wizToggleDrawer()"></div>' +
+    '<div class="wiz-drawer" hidden>' + sidebar + '</div>' +
+    '<div class="wiz-sidebar">' + sidebar + '</div>' +
     '<div class="wiz-content"><div class="wiz-card">' + body + '</div></div></div>' +
     '<div class="wiz-footer">' + footer + '</div>';
 
@@ -1736,12 +1762,33 @@ function wizGo(delta) {
   document.getElementById('wizard').querySelector('.wiz-content').scrollTop = 0;
 }
 
+function wizToggleDrawer() {
+  var wiz = document.getElementById('wizard');
+  var drawer = wiz.querySelector('.wiz-drawer');
+  var backdrop = wiz.querySelector('.wiz-drawer-backdrop');
+  if (!drawer) return;
+  if (drawer.hasAttribute('hidden')) {
+    drawer.removeAttribute('hidden');
+    backdrop.removeAttribute('hidden');
+  } else {
+    drawer.setAttribute('hidden', '');
+    backdrop.setAttribute('hidden', '');
+  }
+}
+
 function wizJumpTo(idx) {
+  var wiz = document.getElementById('wizard');
+  var drawer = wiz && wiz.querySelector('.wiz-drawer');
+  if (drawer && !drawer.hasAttribute('hidden')) {
+    drawer.setAttribute('hidden', '');
+    var bd = wiz.querySelector('.wiz-drawer-backdrop');
+    if (bd) bd.setAttribute('hidden', '');
+  }
   if (idx === wizStep) return;
   saveWizStep(wizStep);
   wizStep = idx;
   renderWizard();
-  document.getElementById('wizard').querySelector('.wiz-content').scrollTop = 0;
+  wiz.querySelector('.wiz-content').scrollTop = 0;
 }
 
 function buildReviewHtml() {
