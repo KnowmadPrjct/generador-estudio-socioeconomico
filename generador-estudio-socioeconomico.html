@@ -154,6 +154,41 @@ table.grid tr:last-child td { border-bottom: 1px solid var(--ink); }
 .ruled { margin-top: 6px; }
 .ruled .line { border-bottom: 1px solid var(--paper-line); height: 28px; }
 
+/* ── DIGITAL FILL MODE ── */
+.fi {
+  border: none; border-bottom: 2px solid var(--doc-accent, #2a7a8a);
+  background: rgba(42,122,138,0.07); border-radius: 2px 2px 0 0;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #111;
+  outline: none; padding: 2px 4px; box-sizing: border-box;
+  min-width: 60px; height: 22px; vertical-align: bottom;
+}
+.field .fi { flex: 1; width: 0; }
+.fi:focus { border-bottom-color: var(--teal-bright, #4AC2A8); background: rgba(42,122,138,0.14); }
+.fi-area {
+  display: block; width: 100%; box-sizing: border-box;
+  border: none; border-bottom: 1.5px solid var(--doc-accent, #2a7a8a);
+  background: rgba(42,122,138,0.04); border-radius: 2px 2px 0 0;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #111;
+  outline: none; padding: 4px 4px 2px; resize: none; overflow: hidden;
+  min-height: 28px; line-height: 1.7;
+}
+.fi-area:focus { border-bottom-color: var(--teal-bright, #4AC2A8); background: rgba(42,122,138,0.10); }
+.fi-cell {
+  border: none; border-bottom: 1px solid #c0c0c0; background: transparent;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #111;
+  outline: none; padding: 1px 4px; width: 100%; box-sizing: border-box;
+}
+.fi-cell:focus { border-bottom-color: var(--doc-accent, #2a7a8a); background: rgba(42,122,138,0.06); }
+label.fi-check {
+  display: inline-flex; align-items: center; gap: 5px;
+  cursor: pointer; font-size: 12.5px; user-select: none;
+}
+label.fi-check input[type="checkbox"] {
+  width: 15px; height: 15px; cursor: pointer;
+  accent-color: var(--doc-accent, #2a7a8a); flex-shrink: 0; margin: 0;
+}
+.toolbar button.fill-active { background: var(--teal-bright); color: #0E211D; border-color: var(--teal-bright); }
+
 .sign-row { display: flex; gap: 30px; margin-top: 26px; flex-wrap: wrap; }
 .sign-block { flex: 1; min-width: 160px; text-align: center; }
 .sign-block .line { border-bottom: 1px solid var(--ink); height: 50px; }
@@ -214,6 +249,25 @@ table.grid tr:last-child td { border-bottom: 1px solid var(--ink); }
   .privacy-block { break-inside: avoid; }
   .sign-row { break-inside: avoid; }
   .callout { background: none !important; }
+  /* Digital fill mode — inputs render as filled underlines */
+  .fi, .fi-cell {
+    -webkit-appearance: none; appearance: none;
+    border: none !important; border-bottom: 1px solid #555 !important;
+    background: transparent !important; box-shadow: none !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    padding: 0 2px !important;
+  }
+  .fi-area {
+    -webkit-appearance: none; appearance: none;
+    border: none !important; border-bottom: 1px solid #555 !important;
+    background: transparent !important; box-shadow: none !important;
+    overflow: visible !important; padding: 0 2px !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  label.fi-check { display: inline-flex; align-items: center; gap: 4px; }
+  label.fi-check input[type="checkbox"] {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -388,6 +442,7 @@ table.grid tr:last-child td { border-bottom: 1px solid var(--ink); }
   <div class="toolbar" id="toolbar" style="display:none;">
     <button onclick="imprimir()">🖨 Imprimir / PDF</button>
     <button onclick="descargarDoc()">⬇ Descargar .doc</button>
+    <button id="btnFill" onclick="toggleRelleno()" style="display:none">✏ Rellenar / Fill</button>
     <span class="toolbar-msg" id="toolbarMsg" role="status"></span>
   </div>
 
@@ -1081,10 +1136,86 @@ function generar() {
   paper.classList.add('visible');
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('toolbar').style.display = 'flex';
+  // Reset fill mode on each generation
+  fillModeActive = false;
+  var btnFill = document.getElementById('btnFill');
+  btnFill.style.display = '';
+  btnFill.textContent = '✏ Rellenar / Fill';
+  btnFill.classList.remove('fill-active');
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   paper.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
   announce(mode === 'en' ? 'Template generated. Ready to print.' : 'Plantilla generada. Lista para imprimir.');
+}
+
+// ── DIGITAL FILL MODE ──
+var fillModeActive = false;
+
+function activarRelleno() {
+  var paper = document.getElementById('paper');
+
+  // Blank spans → text inputs
+  paper.querySelectorAll('.blank').forEach(function(span) {
+    var inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'fi';
+    inp.setAttribute('autocomplete', 'off');
+    inp.setAttribute('spellcheck', 'false');
+    span.parentNode.replaceChild(inp, span);
+  });
+
+  // Checkbox option spans → real checkbox labels
+  paper.querySelectorAll('.opts span').forEach(function(span) {
+    var text = span.textContent.replace(/^☐\s*/, '');
+    var label = document.createElement('label');
+    label.className = 'fi-check';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(' ' + text));
+    span.parentNode.replaceChild(label, span);
+  });
+
+  // Ruled lines → auto-grow textareas
+  paper.querySelectorAll('.ruled .line').forEach(function(line) {
+    var ta = document.createElement('textarea');
+    ta.className = 'fi-area';
+    ta.rows = 1;
+    ta.setAttribute('autocomplete', 'off');
+    ta.setAttribute('spellcheck', 'false');
+    ta.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+    line.parentNode.replaceChild(ta, line);
+  });
+
+  // Grid table cells → input cells
+  paper.querySelectorAll('table.grid tbody td').forEach(function(td) {
+    if (!td.querySelector('input,textarea')) {
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'fi-cell';
+      inp.setAttribute('autocomplete', 'off');
+      td.appendChild(inp);
+    }
+  });
+
+  fillModeActive = true;
+  var btn = document.getElementById('btnFill');
+  btn.textContent = '✕ Borrar relleno / Clear';
+  btn.classList.add('fill-active');
+  announce('Modo de relleno activo. Complete los campos e imprima cuando termine.');
+}
+
+function toggleRelleno() {
+  if (fillModeActive) {
+    if (!confirm('¿Borrar todos los datos ingresados y volver al formulario en blanco?\n\nClear all filled data and return to blank form?')) return;
+    fillModeActive = false;
+    generar();
+  } else {
+    activarRelleno();
+  }
 }
 
 // ── PRINT ──
