@@ -34,10 +34,70 @@ html, body { margin: 0; padding: 0; overflow-x: hidden; }
 body { background: var(--bg); color: var(--cream); font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
 
 /* ── APP HEADER ── */
-.app-header { padding: 28px 24px 18px; border-bottom: 1px solid rgba(242,238,225,.12); }
+.app-header { padding: 28px 24px 18px; border-bottom: 1px solid rgba(242,238,225,.12); position: relative; }
 .app-header .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--teal-bright); margin: 0 0 6px; }
 .app-header h1 { font-family: 'Lora', serif; font-weight: 600; font-size: clamp(22px,4vw,30px); margin: 0 0 6px; color: var(--cream); }
 .app-header p { margin: 0; color: var(--cream-dim); font-size: 14.5px; max-width: 640px; line-height: 1.5; }
+.help-btn {
+  position: absolute; top: 24px; right: 24px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(242,238,225,.1); border: 1.5px solid rgba(242,238,225,.2);
+  color: var(--cream-dim); font-size: 16px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; transition: background .15s, color .15s;
+}
+.help-btn:hover { background: rgba(74,194,168,.2); color: var(--teal-bright); border-color: var(--teal-bright); }
+/* ── HELP MODAL ── */
+#help-modal {
+  position: fixed; inset: 0; z-index: 700;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+#help-modal[hidden] { display: none !important; }
+.hm-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); }
+.hm-card {
+  position: relative; background: #fff; border-radius: 16px;
+  width: 100%; max-width: 720px; max-height: 90vh;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 28px 70px rgba(0,0,0,0.35);
+}
+.hm-header {
+  background: #0E211D; color: #e8f5e9; padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+}
+.hm-header h2 { margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 15px; flex: 1; }
+.hm-close {
+  background: none; border: none; color: rgba(232,245,233,.5);
+  font-size: 20px; cursor: pointer; padding: 2px 6px; line-height: 1;
+}
+.hm-close:hover { color: #e8f5e9; }
+.hm-body { flex: 1; overflow-y: auto; }
+.hm-slide { display: none; flex-direction: column; }
+.hm-slide.active { display: flex; }
+.hm-img-wrap { background: #f5f5f5; display: flex; align-items: center; justify-content: center; padding: 0; }
+.hm-img-wrap img { width: 100%; height: auto; display: block; max-height: 420px; object-fit: contain; }
+.hm-caption { padding: 20px 24px; }
+.hm-caption .step-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #4AC2A8; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 6px; }
+.hm-caption h3 { margin: 0 0 8px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #0E211D; }
+.hm-caption p  { margin: 0; font-size: 14px; color: #555; line-height: 1.6; }
+.hm-footer {
+  border-top: 1px solid #eee; padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+}
+.hm-dots { flex: 1; display: flex; gap: 6px; justify-content: center; }
+.hm-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; border: none; cursor: pointer; padding: 0; transition: background .2s; }
+.hm-dot.active { background: #4AC2A8; }
+.hm-nav { background: #0E211D; color: #e8f5e9; border: none; border-radius: 7px; padding: 9px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .15s; }
+.hm-nav:disabled { opacity: .35; cursor: default; }
+.hm-nav:not(:disabled):hover { opacity: .85; }
+@media (max-width: 640px) {
+  .hm-img-wrap img { max-height: 280px; }
+  .hm-caption { padding: 14px 16px; }
+  .hm-caption h3 { font-size: 14px; }
+  .hm-caption p  { font-size: 13px; }
+  .hm-footer { padding: 10px 14px; }
+  .hm-nav { padding: 8px 14px; font-size: 12px; }
+}
+@media print { #help-modal { display: none !important; } }
 
 /* ── LAYOUT ── */
 .layout { display: grid; grid-template-columns: 370px 1fr; align-items: start; }
@@ -453,6 +513,7 @@ label.fi-check input[type="checkbox"] {
   <p class="eyebrow">Herramienta para trabajo social</p>
   <h1>Generador de Estudio Socioeconómico</h1>
   <p>Completa los datos a la izquierda y obtén una plantilla lista para imprimir y llenar durante la entrevista o visita domiciliaria.</p>
+  <button class="help-btn" onclick="abrirAyuda()" aria-label="Cómo usar esta herramienta">?</button>
 </div>
 
 <div class="layout">
@@ -634,6 +695,24 @@ label.fi-check input[type="checkbox"] {
   </div>
 
 </main>
+</div>
+
+<div id="help-modal" hidden>
+  <div class="hm-backdrop" onclick="cerrarAyuda()"></div>
+  <div class="hm-card" role="dialog" aria-modal="true" aria-label="Cómo usar la herramienta">
+    <div class="hm-header">
+      <h2>¿Cómo usar esta herramienta?</h2>
+      <button class="hm-close" onclick="cerrarAyuda()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="hm-body" id="hm-body">
+      <!-- slides injected by JS -->
+    </div>
+    <div class="hm-footer">
+      <button class="hm-nav" id="hm-prev" onclick="hmNav(-1)">← Anterior</button>
+      <div class="hm-dots" id="hm-dots"></div>
+      <button class="hm-nav" id="hm-next" onclick="hmNav(1)">Siguiente →</button>
+    </div>
+  </div>
 </div>
 
 <div id="action-modal" hidden>
@@ -1532,6 +1611,77 @@ function buildWizSections() {
     ]},
   ];
 }
+
+// ── HELP GUIDE ──────────────────────────────────────────────────────
+var HM_BASE = 'https://knowmadprjct.github.io/generador-estudio-socioeconomico/assets/help/';
+var HM_SLIDES = [
+  { img: '01_config.png',
+    title: 'Paso 1 — Configurar la plantilla',
+    text:  'Selecciona el país o jurisdicción, el idioma y escribe el nombre de tu institución. Agrega criterios especiales si aplica. Cuando esté listo, presiona <strong>Generar plantilla</strong>.' },
+  { img: '02_modal_popup.png',
+    title: 'Paso 2 — Elegir qué hacer',
+    text:  'Al generar, aparece este menú. Elige <strong>Rellenar sección por sección</strong> para capturar los datos del entrevistado, <strong>Imprimir / PDF</strong> para imprimir en blanco, o <strong>Descargar .doc</strong> para guardar el archivo.' },
+  { img: '03_wizard_step1.png',
+    title: 'Paso 3 — Asistente de captura',
+    text:  'El asistente divide el estudio en 16 secciones. Usa el panel izquierdo para saltar a cualquier sección o avanza con <strong>Siguiente →</strong>. En celular, toca <strong>☰</strong> para ver la lista de secciones.' },
+  { img: '04_wizard_filled.png',
+    title: 'Paso 4 — Capturar los datos',
+    text:  'Llena los campos de cada sección. Puedes avanzar y regresar libremente — los datos se conservan mientras el asistente está abierto.' },
+  { img: '05_wizard_review.png',
+    title: 'Paso 5 — Revisar todo',
+    text:  'La última pantalla muestra un resumen de todo lo capturado. Haz clic en cualquier sección para editarla. Cuando esté correcto, elige <strong>Imprimir / PDF</strong>, <strong>Descargar .doc</strong> o <strong>Aplicar al formulario</strong>.' },
+  { img: '06_filled_form.png',
+    title: 'Paso 6 — Documento listo',
+    text:  'El formulario queda lleno con los datos capturados. Desde aquí puedes imprimir directamente (Ctrl+P / Cmd+P) o descargar como archivo .doc para editar en Word.' },
+  { img: 'm03_wizard.png',
+    title: 'En celular',
+    text:  'La herramienta funciona igual en iPhone y Android. El asistente ocupa toda la pantalla y usa el botón <strong>☰</strong> para mostrar la navegación entre secciones.' },
+];
+var hmStep = 0;
+
+function abrirAyuda() {
+  hmStep = 0;
+  var body = document.getElementById('hm-body');
+  var dots = document.getElementById('hm-dots');
+  body.innerHTML = HM_SLIDES.map(function(s, i) {
+    return '<div class="hm-slide' + (i === 0 ? ' active' : '') + '">' +
+      '<div class="hm-img-wrap"><img src="' + HM_BASE + s.img + '" alt="' + s.title + '" loading="lazy"></div>' +
+      '<div class="hm-caption">' +
+      '<p class="step-num">Paso ' + (i + 1) + ' de ' + HM_SLIDES.length + '</p>' +
+      '<h3>' + s.title + '</h3>' +
+      '<p>' + s.text + '</p>' +
+      '</div></div>';
+  }).join('');
+  dots.innerHTML = HM_SLIDES.map(function(_, i) {
+    return '<button class="hm-dot' + (i === 0 ? ' active' : '') + '" onclick="hmGoto(' + i + ')" aria-label="Paso ' + (i+1) + '"></button>';
+  }).join('');
+  hmUpdateNav();
+  document.getElementById('help-modal').removeAttribute('hidden');
+}
+
+function cerrarAyuda() {
+  document.getElementById('help-modal').setAttribute('hidden', '');
+}
+
+function hmNav(delta) { hmGoto(hmStep + delta); }
+
+function hmGoto(idx) {
+  if (idx < 0 || idx >= HM_SLIDES.length) return;
+  document.querySelectorAll('.hm-slide')[hmStep].classList.remove('active');
+  document.querySelectorAll('.hm-dot')[hmStep].classList.remove('active');
+  hmStep = idx;
+  document.querySelectorAll('.hm-slide')[hmStep].classList.add('active');
+  document.querySelectorAll('.hm-dot')[hmStep].classList.add('active');
+  hmUpdateNav();
+  document.getElementById('hm-body').scrollTop = 0;
+}
+
+function hmUpdateNav() {
+  document.getElementById('hm-prev').disabled = hmStep === 0;
+  document.getElementById('hm-next').disabled = hmStep === HM_SLIDES.length - 1;
+  document.getElementById('hm-next').textContent = hmStep === HM_SLIDES.length - 1 ? 'Listo ✓' : 'Siguiente →';
+}
+// ────────────────────────────────────────────────────────────────────
 
 function abrirModal() {
   document.getElementById('action-modal').removeAttribute('hidden');
