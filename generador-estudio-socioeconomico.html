@@ -501,6 +501,7 @@ var JUR = {
   generico: {
     name: 'Genérico',
     idDoc: { es: 'Documento de identidad oficial', en: 'Official identity document' },
+    idTypes: { es: ['Documento nacional de identidad','Pasaporte','Otro'], en: ['National ID','Passport','Other'] },
     licenseLabel: { es: 'Cédula profesional / colegiatura / matrícula', en: 'Professional license / registration number' },
     currency: '$',
     health: { es: ['Seguro público','Seguro privado','Ninguno','Otro'], en: ['Public insurance','Private insurance','None','Other'] },
@@ -520,6 +521,7 @@ var JUR = {
   mexico: {
     name: 'México',
     idDoc: { es: 'CURP / INE / pasaporte', en: 'CURP / INE / passport' },
+    idTypes: { es: ['CURP','INE / IFE','Pasaporte','Licencia de conducir','Otro'], en: ['CURP','INE / IFE','Passport','Driver\'s license','Other'] },
     licenseLabel: { es: 'Cédula profesional (SEP)', en: 'Professional license (SEP)' },
     currency: '$',
     health: { es: ['IMSS','ISSSTE','Seguro Popular / INSABI / IMSS-Bienestar','Pemex / SEDENA / SEMAR','Seguro privado','Ninguno'], en: ['IMSS','ISSSTE','Seguro Popular / INSABI / IMSS-Bienestar','Pemex / military insurance','Private insurance','None'] },
@@ -539,6 +541,7 @@ var JUR = {
   espana: {
     name: 'España',
     idDoc: { es: 'DNI / NIE / pasaporte', en: 'DNI / NIE / passport' },
+    idTypes: { es: ['DNI','NIE','Pasaporte','Otro'], en: ['DNI','NIE','Passport','Other'] },
     licenseLabel: { es: 'Número de colegiación profesional', en: 'Professional association registration number' },
     currency: '€',
     health: { es: ['Seguridad Social (pública)','Mutualidad (MUFACE, MUGEJU, ISFAS)','Seguro privado','Sin cobertura / pendiente de empadronamiento'], en: ['Social Security (public)','Mutual insurance (MUFACE, MUGEJU, ISFAS)','Private insurance','No coverage / pending registration'] },
@@ -558,6 +561,7 @@ var JUR = {
   colombia: {
     name: 'Colombia',
     idDoc: { es: 'Cédula de ciudadanía / tarjeta de identidad / pasaporte', en: 'Cédula de ciudadanía / ID card / passport' },
+    idTypes: { es: ['Cédula de ciudadanía','Tarjeta de identidad','Pasaporte','Registro civil','Otro'], en: ['Cédula de ciudadanía','ID card','Passport','Birth registration','Other'] },
     licenseLabel: { es: 'Tarjeta profesional (Consejo Nacional de Trabajo Social)', en: 'Professional card (National Social Work Council)' },
     currency: '$',
     health: { es: ['EPS — Régimen Contributivo','EPS — Régimen Subsidiado (SISBÉN)','Régimen especial (fuerzas militares, magisterio, Ecopetrol)','Seguro privado','Sin afiliación'], en: ['EPS — Contributory regime','EPS — Subsidized regime (SISBÉN)','Special regime (military, teachers, Ecopetrol)','Private insurance','No coverage'] },
@@ -577,6 +581,7 @@ var JUR = {
   argentina: {
     name: 'Argentina',
     idDoc: { es: 'DNI / CUIL / CUIT', en: 'DNI / CUIL / CUIT' },
+    idTypes: { es: ['DNI','CUIL','CUIT','Pasaporte','Otro'], en: ['DNI','CUIL','CUIT','Passport','Other'] },
     licenseLabel: { es: 'Matrícula profesional (Colegio de Trabajadores Sociales)', en: 'Professional registration (Social Workers\' College)' },
     currency: '$',
     health: { es: ['Obra social (PAMI, sindicato, etc.)','Prepaga','Hospital público','Sin cobertura'], en: ['Obra social (union / PAMI)','Prepaga (private health plan)','Public hospital','No coverage'] },
@@ -596,6 +601,7 @@ var JUR = {
   chile: {
     name: 'Chile',
     idDoc: { es: 'Cédula de identidad (RUT) / pasaporte', en: 'National ID (RUT) / passport' },
+    idTypes: { es: ['Cédula de identidad (RUT)','Pasaporte','Carné de extranjería','Otro'], en: ['National ID (RUT)','Passport','Foreign resident card','Other'] },
     licenseLabel: { es: 'Registro profesional (Colegio de Trabajadores Sociales de Chile)', en: 'Professional registration (Chilean Social Workers\' College)' },
     currency: '$',
     health: { es: ['FONASA (público)','ISAPRE (privado)','FFAA y del Orden','Sin afiliación'], en: ['FONASA (public)','ISAPRE (private)','Armed forces / police','No coverage'] },
@@ -615,6 +621,7 @@ var JUR = {
   peru: {
     name: 'Perú',
     idDoc: { es: 'DNI (RENIEC) / carné de extranjería / pasaporte', en: 'DNI (RENIEC) / foreigner\'s card / passport' },
+    idTypes: { es: ['DNI (RENIEC)','Carné de extranjería','Pasaporte','Otro'], en: ['DNI (RENIEC)','Foreign resident card','Passport','Other'] },
     licenseLabel: { es: 'CTS / número de colegiatura (Colegio de Trabajadores Sociales del Perú)', en: 'Professional registration (Peruvian Social Workers\' College)' },
     currency: 'S/',
     health: { es: ['SIS (Seguro Integral de Salud)','EsSalud','Seguro privado (EPS)','Sanidad FFAA/PNP','Ninguno'], en: ['SIS (Comprehensive Health Insurance)','EsSalud','Private insurance (EPS)','Military/police health service','None'] },
@@ -634,6 +641,7 @@ var JUR = {
   eeuu: {
     name: 'Estados Unidos',
     idDoc: { es: 'Licencia de conducir / ID estatal / pasaporte', en: 'Driver\'s license / state ID / passport' },
+    idTypes: { es: ['Licencia de conducir','ID estatal','Pasaporte','Matrícula consular','ITIN','Otro'], en: ['Driver\'s license','State ID','Passport','Consular ID','ITIN','Other'] },
     licenseLabel: { es: 'Número de licencia de trabajo social (LCSW / MSW / BSW, según estado)', en: 'Social work license number (LCSW / MSW / BSW, by state)' },
     currency: '$',
     health: { es: ['Medicaid','Medicare','CHIP','Mercado ACA (Obamacare)','Seguro del empleador','VA (veteranos)','Sin seguro'], en: ['Medicaid','Medicare','CHIP','ACA Marketplace','Employer-sponsored insurance','VA (veterans)','Uninsured'] },
@@ -653,6 +661,7 @@ var JUR = {
   otro: {
     name: '',
     idDoc: { es: 'Documento de identidad oficial', en: 'Official identity document' },
+    idTypes: { es: ['Documento nacional de identidad','Pasaporte','Otro'], en: ['National ID document','Passport','Other'] },
     licenseLabel: { es: 'Cédula profesional / colegiatura / matrícula', en: 'Professional license / registration number' },
     currency: '$',
     health: { es: ['Seguro público','Seguro privado','Ninguno','Otro'], en: ['Public insurance','Private insurance','None','Other'] },
@@ -937,15 +946,14 @@ function generar() {
   }
 
   // §1 Identificación
-  var idDocTypeLbl = mode === 'bi' ? 'Tipo de doc. / ID type' : (mode === 'en' ? 'ID type' : 'Tipo de documento');
-  var idDocNumLbl  = mode === 'bi'
-    ? (j.idDoc.es + ' / ' + j.idDoc.en + ' — No.')
-    : (mode === 'en' ? (j.idDoc.en || j.idDoc.es) + ' — No.' : j.idDoc.es + ' — No.');
+  var idTypesEs = j.idTypes ? j.idTypes.es : ['Documento de identidad oficial','Otro'];
+  var idTypesEn = j.idTypes ? (j.idTypes.en || j.idTypes.es) : ['Official ID document','Other'];
   html += '<div class="section">' + secHead(1, 'Datos de identificación del solicitante / beneficiario', 'Identification data — applicant / beneficiary', null, mode) +
     frow([['Nombre completo','Full name']], mode) +
     frow([['Fecha de nacimiento','Date of birth'],['Edad','Age'],['Sexo','Sex']], mode) +
-    frow([['Estado civil','Marital status'],[idDocTypeLbl, idDocTypeLbl]], mode) +
-    frow([[idDocNumLbl, idDocNumLbl]], mode) +
+    frow([['Estado civil','Marital status']], mode) +
+    checkgroup('Identificación oficial presentada','Official ID presented', idTypesEs, idTypesEn, mode) +
+    frow([['No. de identificación','ID number']], mode) +
     frow([['Dirección completa','Full address']], mode) +
     frow([['Colonia / barrio','Neighborhood / area'],['Municipio / ciudad','City / municipality'],['Código postal','ZIP / postal code']], mode) +
     frow([['Teléfono','Phone'],['Correo electrónico','Email']], mode) +
