@@ -179,6 +179,14 @@ table.grid tr:last-child td { border-bottom: 1px solid var(--ink); }
   /* Default: A4. Worker can switch to Letter in the print dialog. */
   size: A4;
   margin: 24mm 14mm 22mm 18mm;
+  /* Suppress Chrome's default date/title/URL print headers; replace with ours.
+     @top-left institution content is injected dynamically by generar() via <style id="_pstyle">. */
+  @top-left   { content: ""; font-size: 8.5pt; color: #888; font-family: 'IBM Plex Mono', monospace; }
+  @top-center { content: ""; }
+  @top-right  { content: "Folio: _______________"; font-size: 8.5pt; color: #888; font-family: 'IBM Plex Mono', monospace; }
+  @bottom-left   { content: ""; }
+  @bottom-center { content: ""; }
+  @bottom-right  { content: "Pág. " counter(page); font-size: 8pt; color: #aaa; font-family: 'IBM Plex Mono', monospace; }
 }
 @page :first {
   margin-top: 10mm;
@@ -200,44 +208,11 @@ table.grid tr:last-child td { border-bottom: 1px solid var(--ink); }
   .paper::before { display: none; }
   .stamp { display: none; }
 
-  .print-header {
-    display: block;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    padding: 2mm 6mm;
-    border-bottom: 0.5pt solid #ccc;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 8.5pt;
-    color: #888;
-    background: #fff;
-  }
-  .print-header .ph-left { float: left; }
-  .print-header .ph-right { float: right; }
-  .print-header::after { content: ""; display: table; clear: both; }
-
-  .print-footer {
-    display: block;
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    padding: 2mm 6mm;
-    border-top: 0.5pt solid #ddd;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 8pt;
-    color: #aaa;
-    background: #fff;
-  }
-  .print-footer .pf-left { float: left; }
-  .print-footer .pf-right { float: right; }
-  .print-footer::after { content: ""; display: table; clear: both; }
-  /* CSS counters for page X / Y */
-  .print-footer .pf-right::after { content: "Pág. " counter(page) " / " counter(pages); }
-
   .section { break-inside: auto; }
   .section h3 { break-after: avoid; }
   .section-note { break-after: avoid; }
   .privacy-block { break-inside: avoid; }
   .sign-row { break-inside: avoid; }
-  /* Callout legible without background fill */
   .callout { background: none !important; }
 }
 
@@ -907,11 +882,13 @@ function generar() {
   var p = PURPOSES[purposeKey];
   var L = mode === 'en' ? 'en' : 'es';
 
-  // Update running header/footer for print
+  // Inject institution name into @page top-left margin box for print running header
   var instLabel = institution || j.name || 'Estudio Socioeconómico';
-  document.getElementById('phInstitution').textContent = instLabel;
-  document.getElementById('pfLeft').textContent = instLabel;
-  document.getElementById('printFooter').querySelector('.pf-right').style.display = showPageNums ? '' : 'none';
+  var ps = document.getElementById('_pstyle');
+  if (!ps) { ps = document.createElement('style'); ps.id = '_pstyle'; document.head.appendChild(ps); }
+  var safeInst = instLabel.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  var numContent = showPageNums ? '"Pág. " counter(page)' : '""';
+  ps.textContent = '@page { @top-left { content: "' + safeInst + '"; font-size: 8.5pt; color: #888; font-family: "IBM Plex Mono", monospace; } @bottom-right { content: ' + numContent + '; font-size: 8pt; color: #aaa; font-family: "IBM Plex Mono", monospace; } }';
 
   var html = '';
 
