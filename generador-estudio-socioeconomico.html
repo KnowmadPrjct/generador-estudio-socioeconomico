@@ -201,6 +201,69 @@ label.fi-check input[type="checkbox"] {
 .doc-footer .brand-footer-lines { margin-bottom: 5px; }
 .doc-footer .brand-confidential { font-weight: 600; margin-bottom: 4px; }
 
+/* ── WIZARD FILL UI ── */
+.wiz { position:fixed; inset:0; z-index:1000; display:flex; flex-direction:column; background:#f2f4f5; font-family:'IBM Plex Mono',monospace; }
+.wiz[hidden] { display:none !important; }
+.wiz-bar { background:#0E211D; color:#e8f5e9; padding:10px 20px; display:flex; align-items:center; gap:16px; flex-shrink:0; }
+.wiz-bar-title { font-size:13px; font-weight:600; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wiz-bar-step { font-size:11px; color:#8BC8A4; white-space:nowrap; }
+.wiz-progress { height:3px; background:#1c3830; flex-shrink:0; }
+.wiz-progress-fill { height:100%; background:var(--teal-bright,#4AC2A8); transition:width .25s; }
+.wiz-body { flex:1; display:flex; overflow:hidden; }
+.wiz-sidebar { width:210px; background:#fff; border-right:1px solid #e0e4e3; overflow-y:auto; flex-shrink:0; padding:8px 0; }
+.wiz-step-item { display:flex; align-items:center; gap:8px; padding:7px 12px; cursor:pointer; font-size:11px; color:#4a5a55; border-left:3px solid transparent; transition:background .1s; overflow:hidden; }
+.wiz-step-item:hover { background:#f0f8f5; }
+.wiz-step-item.wiz-active { border-left-color:var(--teal-bright,#4AC2A8); color:#0E211D; font-weight:600; background:#eef8f5; }
+.wiz-step-item.wiz-done { color:#3E8A79; }
+.wiz-step-num { font-size:10px; min-width:18px; text-align:center; flex-shrink:0; }
+.wiz-step-label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wiz-content { flex:1; overflow-y:auto; padding:24px 32px; }
+.wiz-card { background:#fff; border-radius:8px; padding:24px 28px; max-width:720px; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+.wiz-card-title { font-size:16px; font-weight:700; color:#0E211D; margin:0 0 18px; padding-bottom:12px; border-bottom:2px solid var(--doc-accent,#2a7a8a); }
+.wiz-group { margin-bottom:18px; }
+.wiz-group:last-child { margin-bottom:0; }
+.wiz-label { display:block; font-size:10px; color:#5a7070; margin-bottom:5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
+.wiz-input, .wiz-textarea { width:100%; box-sizing:border-box; font-family:'IBM Plex Mono',monospace; font-size:13px; border:1.5px solid #d0d8d5; border-radius:5px; padding:8px 10px; color:#111; background:#fcfcfc; outline:none; transition:border-color .15s; }
+.wiz-input:focus, .wiz-textarea:focus { border-color:var(--doc-accent,#2a7a8a); background:#fff; }
+.wiz-textarea { resize:vertical; min-height:90px; line-height:1.6; }
+.wiz-checks { display:flex; flex-wrap:wrap; gap:10px 20px; margin-top:6px; }
+.wiz-checks label { display:flex; align-items:center; gap:7px; font-size:12.5px; cursor:pointer; }
+.wiz-checks input[type=checkbox] { width:16px; height:16px; accent-color:var(--doc-accent,#2a7a8a); flex-shrink:0; margin:0; }
+.wiz-table-wrap { overflow-x:auto; margin-top:6px; }
+.wiz-table { border-collapse:collapse; width:100%; font-size:11px; }
+.wiz-table th { background:#f0f4f3; font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; padding:7px 8px; text-align:left; border:1px solid #d8e0de; color:#4a6060; white-space:nowrap; }
+.wiz-table td { border:1px solid #e0e8e5; padding:2px 4px; }
+.wiz-cell { width:100%; border:none; background:transparent; font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:5px 4px; outline:none; color:#111; min-width:60px; }
+.wiz-cell:focus { background:#f0f8f5; }
+.wiz-add-row { margin-top:8px; padding:5px 12px; font-size:11px; cursor:pointer; background:#f0f4f3; border:1px solid #c8d4d0; border-radius:4px; color:#3E8A79; font-family:'IBM Plex Mono',monospace; }
+.wiz-add-row:hover { background:#e0ece8; }
+.wiz-note { font-size:12px; color:#607070; line-height:1.55; margin-bottom:14px; padding:10px 14px; background:#f5f9f8; border-radius:4px; border-left:3px solid #bcd8d0; }
+.wiz-fieldrow { display:flex; gap:14px; flex-wrap:wrap; }
+.wiz-fieldrow .wiz-group { flex:1; min-width:120px; }
+.wiz-footer { background:#fff; border-top:1px solid #e0e4e3; padding:12px 20px; display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:wrap; }
+.wiz-btn { padding:8px 18px; border-radius:5px; font-family:'IBM Plex Mono',monospace; font-size:12px; cursor:pointer; border:1.5px solid transparent; transition:background .15s; }
+.wiz-btn-primary { background:var(--doc-accent,#2a7a8a); color:#fff; border-color:var(--doc-accent,#2a7a8a); }
+.wiz-btn-primary:hover { filter:brightness(1.1); }
+.wiz-btn-primary:disabled { opacity:.45; cursor:default; }
+.wiz-btn-ghost { background:#f0f4f3; color:#333; border-color:#cdd8d4; }
+.wiz-btn-ghost:hover { background:#e4eceb; }
+.wiz-btn-ghost:disabled { opacity:.45; cursor:default; }
+.wiz-btn-danger { background:transparent; color:#b03030; border-color:#e8c8c4; margin-left:auto; font-size:11px; padding:7px 14px; }
+.wiz-btn-danger:hover { background:#fdf0ee; }
+.wiz-spacer { flex:1; }
+.wiz-review-section { margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid #eef2f0; }
+.wiz-review-section:last-child { border-bottom:none; }
+.wiz-review-section h4 { font-size:11px; text-transform:uppercase; color:#3E8A79; letter-spacing:.05em; margin:0 0 8px; }
+.wiz-review-row { display:flex; gap:10px; font-size:12px; padding:3px 0; }
+.wiz-review-label { color:#708080; min-width:150px; flex-shrink:0; }
+.wiz-review-val { color:#111; word-break:break-word; }
+@media (max-width:640px) {
+  .wiz-sidebar { display:none; }
+  .wiz-content { padding:12px 14px; }
+  .wiz-card { padding:16px 14px; }
+  .wiz-fieldrow { flex-direction:column; gap:4px; }
+}
+
 /* ── PRINT RUNNING HEADER / FOOTER ──
    Approach: position:fixed inside @media print, with @page margins reserving space.
    Elements are hidden on screen. Chrome and Firefox honour this correctly.
@@ -442,7 +505,7 @@ label.fi-check input[type="checkbox"] {
   <div class="toolbar" id="toolbar" style="display:none;">
     <button onclick="imprimir()">🖨 Imprimir / PDF</button>
     <button onclick="descargarDoc()">⬇ Descargar .doc</button>
-    <button id="btnFill" onclick="toggleRelleno()" style="display:none">✏ Rellenar / Fill</button>
+    <button id="btnFill" onclick="abrirWizard()" style="display:none">✏ Rellenar sección por sección</button>
     <span class="toolbar-msg" id="toolbarMsg" role="status"></span>
   </div>
 
@@ -467,6 +530,8 @@ label.fi-check input[type="checkbox"] {
 
 </main>
 </div>
+
+<div id="wizard" class="wiz" hidden></div>
 
 <script>
 /* =====================================================================
@@ -1140,7 +1205,7 @@ function generar() {
   fillModeActive = false;
   var btnFill = document.getElementById('btnFill');
   btnFill.style.display = '';
-  btnFill.textContent = '✏ Rellenar / Fill';
+  btnFill.textContent = '✏ Rellenar sección por sección';
   btnFill.classList.remove('fill-active');
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1216,6 +1281,477 @@ function toggleRelleno() {
   } else {
     activarRelleno();
   }
+}
+
+// ── WIZARD FILL UI ──
+var wizData = {};
+var wizStep = 0;
+var wizSections = [];
+
+function buildWizSections() {
+  var jurKey = document.getElementById('jurisdiction').value;
+  var j = JUR[jurKey] || JUR.generico;
+  var purposeKey = document.getElementById('purpose').value;
+  var p = PURPOSES[purposeKey];
+  var mode = currentLang;
+  var L = mode === 'en' ? 'en' : 'es';
+  var cur = j.currency || '$';
+
+  var idTypesArr = j.idTypes ? (mode === 'en' ? (j.idTypes.en || j.idTypes.es) : j.idTypes.es) : ['Documento de identidad oficial','Otro'];
+  var healthArr = j.health ? (mode === 'en' ? (j.health.en || j.health.es) : j.health.es) : [];
+  var educArr = j.educ ? (mode === 'en' ? (j.educ.en || j.educ.es) : j.educ.es) : [];
+  var docsArr = j.docs ? (j.docs[L] || j.docs.es) : [];
+  var extraFields = p.extraFields[L] || p.extraFields.es || [];
+  var judgNote = p.judgmentNote[L] || p.judgmentNote.es;
+
+  var tenencia = mode === 'en' ? ['Owned','Rented','Borrowed / shared','Other'] : ['Propia','Rentada','Prestada','Otro'];
+  var material = mode === 'en' ? ['Concrete / block','Corrugated metal / asbestos','Wood / adobe','Other'] : ['Concreto/block','Lámina/asbesto','Madera/adobe','Otro'];
+  var servicios = mode === 'en' ? ['Potable water','Sewage / drainage','Electricity','Gas','Internet'] : ['Agua potable','Drenaje','Energía eléctrica','Gas','Internet'];
+  var verif = mode === 'en' ? ['Office interview','Home visit','Collateral visit'] : ['Entrevista en oficina','Visita domiciliaria','Visita colateral'];
+
+  var familyHdrs = mode === 'en' ? ['Full name','Age','Relationship','Occupation','Education','Financially dependent?'] : ['Nombre completo','Edad','Parentesco','Ocupación','Escolaridad','¿Depende?'];
+  var incomeHdrs = mode === 'en' ? ['Member','Source of income','Monthly (' + cur + ')'] : ['Integrante','Fuente de ingreso','Monto mensual (' + cur + ')'];
+  var expHdrs = mode === 'en' ? ['Category','Monthly (' + cur + ')'] : ['Concepto','Monto mensual (' + cur + ')'];
+  var educHdrs = mode === 'en' ? ['Member','Education level','Institution','Status'] : ['Integrante','Nivel educativo','Institución','Situación'];
+  var apoyoHdrs = mode === 'en' ? ['Program / institution','Type of support','Duration'] : ['Programa / institución','Tipo de apoyo','Vigencia'];
+
+  var T = function(es, en) { return mode === 'en' ? en : es; };
+
+  return [
+    { secIdx:0, title: T('§1 Datos de identificación','§1 Identification data'), groups:[
+      {type:'field', key:'f0', label: T('Nombre completo','Full name')},
+      {type:'fieldrow', items:[
+        {type:'field', key:'f1', label: T('Fecha de nacimiento','Date of birth'), inputType:'date'},
+        {type:'field', key:'f2', label: T('Edad','Age'), inputType:'number'},
+        {type:'field', key:'f3', label: T('Sexo','Sex')},
+      ]},
+      {type:'field', key:'f4', label: T('Estado civil','Marital status')},
+      {type:'checkgroup', key:'cg0', label: T('Identificación oficial presentada','Official ID presented'), opts:idTypesArr},
+      {type:'field', key:'f5', label: T('No. de identificación','ID number')},
+      {type:'field', key:'f6', label: T('Dirección completa','Full address')},
+      {type:'fieldrow', items:[
+        {type:'field', key:'f7', label: T('Colonia / barrio','Neighborhood / area')},
+        {type:'field', key:'f8', label: T('Municipio / ciudad','City / municipality')},
+        {type:'field', key:'f9', label: T('Código postal','ZIP / postal code')},
+      ]},
+      {type:'fieldrow', items:[
+        {type:'field', key:'f10', label: T('Teléfono','Phone'), inputType:'tel'},
+        {type:'field', key:'f11', label: T('Correo electrónico','Email'), inputType:'email'},
+      ]},
+      {type:'fieldrow', items:[
+        {type:'field', key:'f12', label: T('Ocupación','Occupation')},
+        {type:'field', key:'f13', label: T('Escolaridad','Education')},
+      ]},
+    ]},
+    { secIdx:1, title: T('§2 Motivo del estudio','§2 Reason for study'), groups:
+      [{type:'field', key:'f0', label: T('Descripción específica de la solicitud','Specific description of the request')}]
+      .concat(extraFields.map(function(lbl, i){ return {type:'field', key:'f'+(i+1), label:lbl}; }))
+    },
+    { secIdx:2, title: T('§3 Grupo familiar','§3 Household composition'), groups:[
+      {type:'note', text: T('Incluir a todas las personas que habitan en el hogar.','Include all persons living in the household.')},
+      {type:'table', key:'t0', label: T('Integrantes del hogar','Household members'), cols:familyHdrs, initRows:4},
+    ]},
+    { secIdx:3, title: T('§4 Vivienda','§4 Housing'), groups:[
+      {type:'checkgroup', key:'cg0', label: T('Tenencia','Tenure'), opts:tenencia},
+      {type:'checkgroup', key:'cg1', label: T('Material predominante','Predominant building material'), opts:material},
+      {type:'fieldrow', items:[
+        {type:'field', key:'f0', label: T('Número de habitaciones','Number of rooms'), inputType:'number'},
+        {type:'field', key:'f1', label: T('Personas por habitación (promedio)','Average persons per room')},
+      ]},
+      {type:'checkgroup', key:'cg2', label: T('Servicios con que cuenta','Available utilities'), opts:servicios},
+      {type:'textarea', key:'a0', label: T('Observaciones sobre condiciones de la vivienda','Notes on housing conditions')},
+    ]},
+    { secIdx:4, title: T('§5 Situación económica','§5 Economic situation'), groups:[
+      {type:'table', key:'t0', label: T('Ingresos del hogar','Household income'), cols:incomeHdrs, initRows:3},
+      {type:'field', key:'f0', label: T('Ingreso mensual total del hogar (' + cur + ')','Total monthly household income (' + cur + ')')},
+      {type:'table', key:'t1', label: T('Egresos del hogar','Household expenses'), cols:expHdrs, initRows:4},
+      {type:'field', key:'f1', label: T('Total de egresos mensuales (' + cur + ')','Total monthly expenses (' + cur + ')')},
+      {type:'field', key:'f2', label: T('Balance / déficit mensual (ingresos − egresos)','Monthly balance / deficit (income − expenses)')},
+    ]},
+    { secIdx:5, title: T('§6 Salud','§6 Health'), groups:[
+      {type:'textarea', key:'a0', label: T('Enfermedades, discapacidades o condiciones relevantes','Illnesses, disabilities, or relevant health conditions')},
+      {type:'checkgroup', key:'cg0', label: T('Afiliación a servicios de salud','Health coverage / insurance'), opts:healthArr},
+    ]},
+    { secIdx:6, title: T('§7 Educación','§7 Education'), groups:[
+      {type:'note', text: T('Niveles: ','Levels: ') + educArr.join(', ')},
+      {type:'table', key:'t0', label: T('Educación por integrante','Education by member'), cols:educHdrs, initRows:3},
+    ]},
+    { secIdx:7, title: T('§8 Antecedentes sociales','§8 Social background'), groups:[
+      {type:'note', text: T('Dinámica familiar, relaciones, situaciones de riesgo, redes de apoyo y antecedentes relevantes.','Family dynamics, relationships, risk situations, support networks, and relevant background.')},
+      {type:'textarea', key:'a0', label: T('Antecedentes y situación social','Background and social situation'), rows:8},
+    ]},
+    { secIdx:8, title: T('§9 Apoyos previos','§9 Previous support programs'), groups:[
+      {type:'table', key:'t0', label: T('Programas e instituciones','Programs and institutions'), cols:apoyoHdrs, initRows:3},
+    ]},
+    { secIdx:9, title: T('§10 Diagnóstico social','§10 Social assessment'), groups:[
+      {type:'note', text: T('Análisis profesional de la situación socioeconómica, familiar y de riesgo.','Professional analysis of the socioeconomic, family, and risk situation identified above.')},
+      {type:'textarea', key:'a0', label: T('Diagnóstico social','Social assessment'), rows:8},
+    ]},
+    { secIdx:10, title: T('§11 Juicio profesional','§11 Professional judgment'), groups:[
+      {type:'note', text: judgNote},
+      {type:'textarea', key:'a0', label: T('Juicio profesional y recomendación','Professional judgment and recommendation'), rows:6},
+    ]},
+    { secIdx:11, title: T('§12 Documentos requeridos','§12 Required documents'), groups:[
+      {type:'note', text: T('Marcar con ✓ los documentos entregados por el interesado.','Mark the documents received from the applicant.')},
+      {type:'checkgroup', key:'cg0', label: T('Documentos','Documents'), opts:docsArr},
+    ]},
+    { secIdx:12, title: T('§13 Observaciones de visita','§13 Home visit observations'), groups:[
+      {type:'note', text: T('Condiciones observadas durante la visita: accesibilidad, entorno, actitud del entrevistado, observaciones adicionales.','Conditions observed during the visit: accessibility, surroundings, attitude of the interviewee, additional observations.')},
+      {type:'textarea', key:'a0', label: T('Observaciones','Observations'), rows:7},
+    ]},
+    { secIdx:13, title: T('§14 Aviso de privacidad','§14 Privacy & consent'), groups:[
+      {type:'note', text: T('El aviso de privacidad y la firma de consentimiento aparecen en el documento impreso.','Privacy notice and consent signature appear in the printed document.')},
+      {type:'checkgroup', key:'cg0', label: T('Acuse','Acknowledgment'), opts:[T('Aviso de privacidad leído y explicado al solicitante','Privacy notice read and explained to the applicant')]},
+    ]},
+    { secIdx:14, title: T('§15 Verificación y cierre','§15 Verification & closure'), groups:[
+      {type:'checkgroup', key:'cg0', label: T('Forma de verificación','Verification method'), opts:verif},
+      {type:'field', key:'f0', label: T('Fecha de verificación','Verification date'), inputType:'date'},
+      {type:'note', text: T('Las firmas del profesional y solicitante aparecen en el documento impreso.','Professional and applicant signatures appear in the printed document.')},
+    ]},
+  ];
+}
+
+function abrirWizard() {
+  if (!document.getElementById('paper').classList.contains('visible')) { generar(); }
+  wizData = {};
+  wizStep = 0;
+  wizSections = buildWizSections();
+  document.getElementById('wizard').removeAttribute('hidden');
+  document.body.style.overflow = 'hidden';
+  renderWizard();
+}
+
+function cerrarWizard(askConfirm) {
+  if (askConfirm && !confirm(currentLang === 'en'
+    ? 'Close wizard? Data not yet applied to the form will be lost.'
+    : '¿Cerrar el asistente? Los datos no aplicados al formulario se perderán.')) return;
+  document.getElementById('wizard').setAttribute('hidden', '');
+  document.body.style.overflow = '';
+}
+
+function renderWizard() {
+  var wiz = document.getElementById('wizard');
+  var total = wizSections.length + 1;
+  var isReview = wizStep >= wizSections.length;
+  var pct = Math.round((wizStep / (total - 1)) * 100);
+  var T = function(es, en) { return currentLang === 'en' ? en : es; };
+  var stepTitle = isReview ? T('Revisión e impresión','Review & Print') : wizSections[wizStep].title;
+
+  var sidebar = wizSections.map(function(sec, i) {
+    var done = wizData[i] !== undefined && i !== wizStep;
+    var cls = 'wiz-step-item' + (i === wizStep ? ' wiz-active' : (done ? ' wiz-done' : ''));
+    return '<div class="' + cls + '" onclick="wizJumpTo(' + i + ')">' +
+      '<span class="wiz-step-num">' + (done ? '✓' : (i + 1)) + '</span>' +
+      '<span class="wiz-step-label">' + esc(sec.title.replace(/^§\d+\s*/,'')) + '</span></div>';
+  }).join('') +
+  '<div class="wiz-step-item' + (isReview ? ' wiz-active' : '') + '" onclick="wizJumpTo(' + wizSections.length + ')">' +
+    '<span class="wiz-step-num">' + total + '</span>' +
+    '<span class="wiz-step-label">' + T('Revisión','Review') + '</span></div>';
+
+  var body = isReview ? buildReviewHtml() : buildStepHtml(wizSections[wizStep]);
+
+  var footer = '<button class="wiz-btn wiz-btn-ghost" onclick="wizGo(-1)"' + (wizStep === 0 ? ' disabled' : '') + '>' + T('← Atrás','← Back') + '</button>';
+  if (isReview) {
+    footer += '<button class="wiz-btn wiz-btn-primary" onclick="wizApplyAndPrint()">🖨 ' + T('Imprimir / PDF','Print / PDF') + '</button>';
+    footer += '<button class="wiz-btn wiz-btn-ghost" onclick="wizApplyAndDownload()">⬇ ' + T('Descargar .doc','Download .doc') + '</button>';
+    footer += '<button class="wiz-btn wiz-btn-ghost" onclick="wizApplyOnly()">✓ ' + T('Aplicar al formulario','Apply to form') + '</button>';
+  } else {
+    footer += '<button class="wiz-btn wiz-btn-primary" onclick="wizGo(1)">' + T('Siguiente →','Next →') + '</button>';
+  }
+  footer += '<span class="wiz-spacer"></span>';
+  footer += '<button class="wiz-btn wiz-btn-danger" onclick="cerrarWizard(true)">✕ ' + T('Cerrar','Close') + '</button>';
+
+  wiz.innerHTML =
+    '<div class="wiz-bar"><span class="wiz-bar-title">' + esc(stepTitle) + '</span>' +
+    '<span class="wiz-bar-step">' + (wizStep + 1) + ' / ' + total + '</span></div>' +
+    '<div class="wiz-progress"><div class="wiz-progress-fill" style="width:' + pct + '%"></div></div>' +
+    '<div class="wiz-body"><div class="wiz-sidebar">' + sidebar + '</div>' +
+    '<div class="wiz-content"><div class="wiz-card">' + body + '</div></div></div>' +
+    '<div class="wiz-footer">' + footer + '</div>';
+
+  restoreWizStep(wizStep);
+  var first = wiz.querySelector('.wiz-input,.wiz-textarea,.wiz-cell');
+  if (first) setTimeout(function(){ first.focus(); }, 50);
+}
+
+function buildStepHtml(sec) {
+  return '<h2 class="wiz-card-title">' + esc(sec.title) + '</h2>' + renderGroups(sec.groups);
+}
+
+function renderGroups(groups) {
+  return groups.map(function(g) {
+    if (g.type === 'note') {
+      return '<div class="wiz-note">' + esc(g.text) + '</div>';
+    }
+    if (g.type === 'field') {
+      return '<div class="wiz-group" data-key="' + g.key + '">' +
+        '<label class="wiz-label">' + esc(g.label) + '</label>' +
+        '<input class="wiz-input" type="' + (g.inputType || 'text') + '" data-key="' + g.key + '" autocomplete="off">' +
+        '</div>';
+    }
+    if (g.type === 'textarea') {
+      return '<div class="wiz-group" data-key="' + g.key + '">' +
+        '<label class="wiz-label">' + esc(g.label) + '</label>' +
+        '<textarea class="wiz-textarea" data-key="' + g.key + '" rows="' + (g.rows || 5) + '"></textarea>' +
+        '</div>';
+    }
+    if (g.type === 'checkgroup') {
+      return '<div class="wiz-group" data-key="' + g.key + '">' +
+        '<div class="wiz-label">' + esc(g.label) + '</div>' +
+        '<div class="wiz-checks">' +
+        g.opts.map(function(opt, i) {
+          return '<label><input type="checkbox" data-key="' + g.key + '" data-opt="' + i + '"> ' + esc(opt) + '</label>';
+        }).join('') +
+        '</div></div>';
+    }
+    if (g.type === 'table') {
+      var rows = '';
+      for (var r = 0; r < (g.initRows || 3); r++) {
+        rows += '<tr>' + g.cols.map(function(){ return '<td><input class="wiz-cell" type="text" autocomplete="off"></td>'; }).join('') + '</tr>';
+      }
+      return '<div class="wiz-group" data-key="' + g.key + '">' +
+        '<div class="wiz-label">' + esc(g.label) + '</div>' +
+        '<div class="wiz-table-wrap"><table class="wiz-table" data-key="' + g.key + '" data-cols="' + g.cols.length + '">' +
+        '<thead><tr>' + g.cols.map(function(c){ return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead>' +
+        '<tbody>' + rows + '</tbody></table>' +
+        '<button class="wiz-add-row" onclick="wizAddRow(this)">+ ' + (currentLang === 'en' ? 'Add row' : 'Agregar fila') + '</button>' +
+        '</div></div>';
+    }
+    if (g.type === 'fieldrow') {
+      return '<div class="wiz-fieldrow">' + renderGroups(g.items) + '</div>';
+    }
+    return '';
+  }).join('');
+}
+
+function wizAddRow(btn) {
+  var tbl = btn.parentElement.querySelector('table.wiz-table');
+  var n = parseInt(tbl.getAttribute('data-cols')) || tbl.querySelectorAll('thead th').length;
+  var tr = document.createElement('tr');
+  for (var c = 0; c < n; c++) {
+    var td = document.createElement('td');
+    var inp = document.createElement('input');
+    inp.className = 'wiz-cell'; inp.type = 'text'; inp.setAttribute('autocomplete','off');
+    td.appendChild(inp); tr.appendChild(td);
+  }
+  tbl.querySelector('tbody').appendChild(tr);
+  tr.querySelector('input').focus();
+}
+
+function saveWizStep(idx) {
+  if (idx >= wizSections.length) return;
+  var wiz = document.getElementById('wizard');
+  var d = { fields:{}, checks:{}, areas:{}, tables:{} };
+  wiz.querySelectorAll('input.wiz-input[data-key]').forEach(function(inp) {
+    d.fields[inp.getAttribute('data-key')] = inp.value;
+  });
+  wiz.querySelectorAll('textarea.wiz-textarea[data-key]').forEach(function(ta) {
+    d.areas[ta.getAttribute('data-key')] = ta.value;
+  });
+  wiz.querySelectorAll('input[type=checkbox][data-key]').forEach(function(cb) {
+    var k = cb.getAttribute('data-key');
+    if (!d.checks[k]) d.checks[k] = {};
+    d.checks[k][parseInt(cb.getAttribute('data-opt'))] = cb.checked;
+  });
+  wiz.querySelectorAll('table.wiz-table[data-key]').forEach(function(tbl) {
+    var k = tbl.getAttribute('data-key');
+    var rows = [];
+    tbl.querySelectorAll('tbody tr').forEach(function(tr) {
+      var row = [];
+      tr.querySelectorAll('input.wiz-cell').forEach(function(c){ row.push(c.value); });
+      rows.push(row);
+    });
+    d.tables[k] = rows;
+  });
+  wizData[idx] = d;
+}
+
+function restoreWizStep(idx) {
+  if (idx >= wizSections.length) return;
+  var d = wizData[idx];
+  if (!d) return;
+  var wiz = document.getElementById('wizard');
+  Object.keys(d.fields || {}).forEach(function(k) {
+    var el = wiz.querySelector('input.wiz-input[data-key="' + k + '"]');
+    if (el) el.value = d.fields[k];
+  });
+  Object.keys(d.areas || {}).forEach(function(k) {
+    var el = wiz.querySelector('textarea.wiz-textarea[data-key="' + k + '"]');
+    if (el) el.value = d.areas[k];
+  });
+  Object.keys(d.checks || {}).forEach(function(k) {
+    Object.keys(d.checks[k]).forEach(function(i) {
+      var el = wiz.querySelector('input[type=checkbox][data-key="' + k + '"][data-opt="' + i + '"]');
+      if (el) el.checked = d.checks[k][i];
+    });
+  });
+  Object.keys(d.tables || {}).forEach(function(k) {
+    var tbl = wiz.querySelector('table.wiz-table[data-key="' + k + '"]');
+    if (!tbl) return;
+    var tbody = tbl.querySelector('tbody');
+    var savedRows = d.tables[k];
+    var numCols = parseInt(tbl.getAttribute('data-cols'));
+    while (tbody.querySelectorAll('tr').length < savedRows.length) {
+      var tr = document.createElement('tr');
+      for (var c = 0; c < numCols; c++) {
+        var td = document.createElement('td');
+        var inp = document.createElement('input');
+        inp.className = 'wiz-cell'; inp.type = 'text'; inp.setAttribute('autocomplete','off');
+        td.appendChild(inp); tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+    tbody.querySelectorAll('tr').forEach(function(tr, ri) {
+      if (ri < savedRows.length) {
+        tr.querySelectorAll('input.wiz-cell').forEach(function(c, ci){ c.value = savedRows[ri][ci] || ''; });
+      }
+    });
+  });
+}
+
+function wizGo(delta) {
+  saveWizStep(wizStep);
+  var next = wizStep + delta;
+  if (next < 0 || next > wizSections.length) return;
+  wizStep = next;
+  renderWizard();
+  document.getElementById('wizard').querySelector('.wiz-content').scrollTop = 0;
+}
+
+function wizJumpTo(idx) {
+  if (idx === wizStep) return;
+  saveWizStep(wizStep);
+  wizStep = idx;
+  renderWizard();
+  document.getElementById('wizard').querySelector('.wiz-content').scrollTop = 0;
+}
+
+function buildReviewHtml() {
+  var T = function(es, en) { return currentLang === 'en' ? en : es; };
+  var html = '<h2 class="wiz-card-title">' + T('Revisión e impresión','Review & Print') + '</h2>' +
+    '<div class="wiz-note">' + T('Revisa los datos ingresados. Haz clic en el nombre de una sección para editarla. Cuando estés listo, presiona Imprimir o Descargar.','Review the data entered. Click a section title to edit it. When ready, press Print or Download.') + '</div>';
+
+  wizSections.forEach(function(sec, idx) {
+    var d = wizData[idx];
+    html += '<div class="wiz-review-section"><h4><a href="#" onclick="event.preventDefault();wizJumpTo(' + idx + ')" style="color:inherit;text-decoration:none;">' + esc(sec.title) + ' ✎</a></h4>';
+    var hasContent = false;
+    if (d) {
+      function reviewGroups(groups) {
+        groups.forEach(function(g) {
+          if (g.type === 'field' && d.fields && d.fields[g.key]) {
+            html += '<div class="wiz-review-row"><span class="wiz-review-label">' + esc(g.label) + '</span><span class="wiz-review-val">' + esc(d.fields[g.key]) + '</span></div>';
+            hasContent = true;
+          } else if (g.type === 'textarea' && d.areas && d.areas[g.key]) {
+            var v = d.areas[g.key];
+            html += '<div class="wiz-review-row"><span class="wiz-review-label">' + esc(g.label) + '</span><span class="wiz-review-val">' + esc(v.length > 120 ? v.substring(0,120) + '…' : v) + '</span></div>';
+            hasContent = true;
+          } else if (g.type === 'checkgroup' && d.checks && d.checks[g.key]) {
+            var checked = g.opts.filter(function(o, i){ return d.checks[g.key][i]; });
+            if (checked.length) {
+              html += '<div class="wiz-review-row"><span class="wiz-review-label">' + esc(g.label) + '</span><span class="wiz-review-val">' + checked.map(esc).join(', ') + '</span></div>';
+              hasContent = true;
+            }
+          } else if (g.type === 'table' && d.tables && d.tables[g.key]) {
+            var nonEmpty = d.tables[g.key].filter(function(r){ return r.some(function(c){ return c.trim(); }); });
+            if (nonEmpty.length) {
+              html += '<div class="wiz-review-row"><span class="wiz-review-label">' + esc(g.label) + '</span><span class="wiz-review-val">' + nonEmpty.length + T(' fila(s)',' row(s)') + '</span></div>';
+              hasContent = true;
+            }
+          } else if (g.type === 'fieldrow') {
+            reviewGroups(g.items);
+          }
+        });
+      }
+      reviewGroups(sec.groups);
+    }
+    if (!hasContent) {
+      html += '<div class="wiz-review-row" style="color:#aaa;font-size:11px;">' + T('(Sin datos ingresados)','(No data entered)') + '</div>';
+    }
+    html += '</div>';
+  });
+  return html;
+}
+
+function wizApplyOnly() {
+  saveWizStep(wizStep);
+  applyWizardToForm();
+  cerrarWizard(false);
+}
+
+function wizApplyAndPrint() {
+  saveWizStep(wizStep);
+  applyWizardToForm();
+  cerrarWizard(false);
+  setTimeout(function(){ window.print(); }, 400);
+}
+
+function wizApplyAndDownload() {
+  saveWizStep(wizStep);
+  applyWizardToForm();
+  cerrarWizard(false);
+  setTimeout(function(){ descargarDoc(); }, 400);
+}
+
+function applyWizardToForm() {
+  generar();
+  activarRelleno();
+  autoFillWizard();
+}
+
+function autoFillWizard() {
+  var paper = document.getElementById('paper');
+  var sections = paper.querySelectorAll('.section');
+
+  sections.forEach(function(sec, secIdx) {
+    var d = wizData[secIdx];
+    var wizSec = wizSections[secIdx];
+    if (!d || !wizSec) return;
+
+    // Collect field keys in DOM order
+    var fieldKeys = [], areaKeys = [], allOpts = [];
+    function collectKeys(groups) {
+      groups.forEach(function(g) {
+        if (g.type === 'field') fieldKeys.push(g.key);
+        else if (g.type === 'textarea') areaKeys.push(g.key);
+        else if (g.type === 'checkgroup') g.opts.forEach(function(o, i){ allOpts.push({key:g.key, idx:i}); });
+        else if (g.type === 'fieldrow') collectKeys(g.items);
+      });
+    }
+    collectKeys(wizSec.groups);
+
+    var inputs = sec.querySelectorAll('input.fi');
+    fieldKeys.forEach(function(k, i) {
+      if (inputs[i] && d.fields && d.fields[k] !== undefined) inputs[i].value = d.fields[k];
+    });
+
+    var textareas = sec.querySelectorAll('textarea.fi-area');
+    areaKeys.forEach(function(k, i) {
+      if (textareas[i] && d.areas && d.areas[k] !== undefined) {
+        textareas[i].value = d.areas[k];
+        textareas[i].style.height = 'auto';
+        textareas[i].style.height = textareas[i].scrollHeight + 'px';
+      }
+    });
+
+    var cbs = sec.querySelectorAll('label.fi-check input[type=checkbox]');
+    cbs.forEach(function(cb, i) {
+      var opt = allOpts[i];
+      if (opt && d.checks && d.checks[opt.key]) cb.checked = !!d.checks[opt.key][opt.idx];
+    });
+
+    // Table cells: flatten saved table data in section order
+    var flatCells = [];
+    function collectCells(groups) {
+      groups.forEach(function(g) {
+        if (g.type === 'table' && d.tables && d.tables[g.key]) {
+          d.tables[g.key].forEach(function(row){ row.forEach(function(v){ flatCells.push(v); }); });
+        } else if (g.type === 'fieldrow') collectCells(g.items);
+      });
+    }
+    collectCells(wizSec.groups);
+    var cells = sec.querySelectorAll('table.grid tbody td input.fi-cell');
+    cells.forEach(function(c, i){ if (flatCells[i] !== undefined) c.value = flatCells[i]; });
+  });
 }
 
 // ── PRINT ──
