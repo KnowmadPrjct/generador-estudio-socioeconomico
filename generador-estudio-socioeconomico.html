@@ -937,11 +937,15 @@ function generar() {
   }
 
   // §1 Identificación
-  var idDocLbl = mode === 'bi' ? 'Doc. de identidad / Identity document' : (mode === 'en' ? (j.idDoc.en || j.idDoc.es) : j.idDoc.es);
+  var idDocTypeLbl = mode === 'bi' ? 'Tipo de doc. / ID type' : (mode === 'en' ? 'ID type' : 'Tipo de documento');
+  var idDocNumLbl  = mode === 'bi'
+    ? (j.idDoc.es + ' / ' + j.idDoc.en + ' — No.')
+    : (mode === 'en' ? (j.idDoc.en || j.idDoc.es) + ' — No.' : j.idDoc.es + ' — No.');
   html += '<div class="section">' + secHead(1, 'Datos de identificación del solicitante / beneficiario', 'Identification data — applicant / beneficiary', null, mode) +
     frow([['Nombre completo','Full name']], mode) +
     frow([['Fecha de nacimiento','Date of birth'],['Edad','Age'],['Sexo','Sex']], mode) +
-    frow([['Estado civil','Marital status'],[idDocLbl, idDocLbl]], mode) +
+    frow([['Estado civil','Marital status'],[idDocTypeLbl, idDocTypeLbl]], mode) +
+    frow([[idDocNumLbl, idDocNumLbl]], mode) +
     frow([['Dirección completa','Full address']], mode) +
     frow([['Colonia / barrio','Neighborhood / area'],['Municipio / ciudad','City / municipality'],['Código postal','ZIP / postal code']], mode) +
     frow([['Teléfono','Phone'],['Correo electrónico','Email']], mode) +
