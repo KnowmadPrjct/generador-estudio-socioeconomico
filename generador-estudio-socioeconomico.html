@@ -84,41 +84,83 @@ body { background: var(--bg); color: var(--cream); font-family: 'Inter', system-
 .btn-sm:hover { border-color: var(--teal-bright); color: var(--teal-bright); }
 .btn-sm:focus-visible { outline: 2px solid var(--teal-bright); }
 
-/* ── ACTION BAR (sticky bottom CTA after generating) ── */
-#action-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 500;
-  background: #0E211D; border-top: 2px solid var(--teal-bright, #4AC2A8);
+/* ── ACTION MODAL (centered popup after generating) ── */
+#action-modal {
+  position: fixed; inset: 0; z-index: 600;
   display: flex; align-items: center; justify-content: center;
-  gap: 10px; padding: 13px 50px 13px 20px;
-  box-shadow: 0 -4px 28px rgba(0,0,0,0.5);
+  padding: 20px;
 }
-#action-bar[hidden] { display: none !important; }
-#action-bar .ab-label {
-  font-size: 11px; color: rgba(242,238,225,.45); white-space: nowrap;
-  font-family: 'Inter', sans-serif; margin-right: 6px; flex-shrink: 0;
+#action-modal[hidden] { display: none !important; }
+.am-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.52); backdrop-filter: blur(3px);
 }
-.ab-btn {
-  display: flex; align-items: center; gap: 7px;
-  padding: 10px 20px; border-radius: 7px; white-space: nowrap;
-  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
-  cursor: pointer; border: 1.5px solid transparent; transition: filter .15s;
+.am-card {
+  position: relative; background: #fff; border-radius: 16px;
+  padding: 44px 36px 36px; max-width: 400px; width: 100%;
+  text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+  animation: am-in .2s ease;
 }
-.ab-primary { background: var(--teal-bright, #4AC2A8); color: #0E211D; }
-.ab-secondary { background: transparent; color: var(--cream, #F2EEE1); border-color: rgba(242,238,225,.2); }
-.ab-btn:hover { filter: brightness(1.12); }
-.ab-btn:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
-#action-bar .ab-dismiss {
-  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; color: rgba(242,238,225,.3);
-  font-size: 17px; cursor: pointer; padding: 8px; line-height: 1;
+@keyframes am-in {
+  from { opacity:0; transform:scale(.94) translateY(8px); }
+  to   { opacity:1; transform:scale(1)  translateY(0); }
 }
-#action-bar .ab-dismiss:hover { color: rgba(242,238,225,.65); }
+.am-close {
+  position: absolute; top: 14px; right: 16px;
+  background: none; border: none; font-size: 20px; line-height:1;
+  color: #bbb; cursor: pointer; padding: 4px 6px; border-radius: 4px;
+  transition: color .15s;
+}
+.am-close:hover { color: #555; }
+.am-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: #e6f4f0; color: #2a7d5e;
+  font-size: 28px; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+.am-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px; font-weight: 700; color: #0E211D; margin: 0 0 8px;
+}
+.am-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px; color: #777; margin: 0 0 28px; line-height: 1.5;
+}
+.am-actions { display: flex; flex-direction: column; gap: 10px; }
+.am-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 20px; border-radius: 9px; border: none;
+  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: filter .15s, transform .1s;
+}
+.am-btn:hover  { filter: brightness(1.07); }
+.am-btn:active { transform: scale(.98); }
+.am-btn:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+.am-fill   { background: var(--teal-bright, #4AC2A8); color: #0E211D; }
+.am-print  { background: #0E211D; color: #e8f5e9; }
+.am-dl     { background: #f0f2f1; color: #333; }
+/* FAB — small floating button to reopen modal after dismissal */
+#action-fab {
+  position: fixed; bottom: 22px; right: 22px; z-index: 500;
+  width: 54px; height: 54px; border-radius: 50%;
+  background: var(--teal-bright, #4AC2A8); color: #0E211D;
+  border: none; font-size: 22px; cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s, box-shadow .15s;
+}
+#action-fab[hidden] { display: none !important; }
+#action-fab:hover  { transform: scale(1.08); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+#action-fab:active { transform: scale(.95); }
 @media (max-width: 640px) {
-  #action-bar { padding: 10px 44px 10px 10px; gap: 7px; }
-  #action-bar .ab-label { display: none; }
-  .ab-btn { flex: 1; justify-content: center; padding: 10px 8px; font-size: 12px; }
+  .am-card { padding: 36px 20px 28px; }
+  .am-title { font-size: 17px; }
+  .am-btn { font-size: 13px; padding: 12px 16px; }
 }
-@media print { #action-bar { display: none !important; } }
+@media print {
+  #action-modal { display: none !important; }
+  #action-fab   { display: none !important; }
+}
 
 /* ── PREVIEW AREA ── */
 .preview-wrap { padding: 32px 24px 100px; display: flex; flex-direction: column; align-items: center; }
@@ -573,13 +615,21 @@ label.fi-check input[type="checkbox"] {
 </main>
 </div>
 
-<div id="action-bar" hidden>
-  <span class="ab-label">Plantilla lista —</span>
-  <button class="ab-btn ab-primary" onclick="abrirWizard()">✏ Rellenar</button>
-  <button class="ab-btn ab-primary" onclick="imprimir()">🖨 Imprimir / PDF</button>
-  <button class="ab-btn ab-secondary" onclick="descargarDoc()">⬇ Descargar .doc</button>
-  <button class="ab-dismiss" onclick="this.parentElement.setAttribute('hidden','')" aria-label="Cerrar barra de acciones">✕</button>
+<div id="action-modal" hidden>
+  <div class="am-backdrop" onclick="cerrarModal()"></div>
+  <div class="am-card" role="dialog" aria-modal="true" aria-labelledby="am-title">
+    <button class="am-close" onclick="cerrarModal()" aria-label="Cerrar">✕</button>
+    <div class="am-icon">✓</div>
+    <h2 class="am-title" id="am-title">¡Plantilla lista!</h2>
+    <p class="am-desc">Elige cómo deseas continuar.</p>
+    <div class="am-actions">
+      <button class="am-btn am-fill"  onclick="cerrarModal();abrirWizard()">✏ Rellenar sección por sección</button>
+      <button class="am-btn am-print" onclick="cerrarModal();imprimir()">🖨 Imprimir / PDF</button>
+      <button class="am-btn am-dl"    onclick="cerrarModal();descargarDoc()">⬇ Descargar .doc</button>
+    </div>
+  </div>
 </div>
+<button id="action-fab" hidden onclick="abrirModal()" aria-label="Opciones de plantilla">✏</button>
 
 <div id="wizard" class="wiz" hidden></div>
 
@@ -1259,8 +1309,8 @@ function generar() {
   btnFill.classList.remove('fill-active');
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.getElementById('action-bar').removeAttribute('hidden');
   document.getElementById('toolbar').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  abrirModal();
   announce(mode === 'en' ? 'Template generated. Ready to print.' : 'Plantilla generada. Lista para imprimir.');
 }
 
@@ -1462,13 +1512,26 @@ function buildWizSections() {
   ];
 }
 
+function abrirModal() {
+  document.getElementById('action-modal').removeAttribute('hidden');
+  document.getElementById('action-fab').setAttribute('hidden', '');
+}
+
+function cerrarModal() {
+  document.getElementById('action-modal').setAttribute('hidden', '');
+  if (document.getElementById('paper').classList.contains('visible')) {
+    document.getElementById('action-fab').removeAttribute('hidden');
+  }
+}
+
 function abrirWizard() {
-  if (!document.getElementById('paper').classList.contains('visible')) { generar(); }
+  if (!document.getElementById('paper').classList.contains('visible')) { generar(); return; }
+  cerrarModal();
   wizData = {};
   wizStep = 0;
   wizSections = buildWizSections();
   document.getElementById('wizard').removeAttribute('hidden');
-  document.getElementById('action-bar').setAttribute('hidden', '');
+  document.getElementById('action-fab').setAttribute('hidden', '');
   document.body.style.overflow = 'hidden';
   renderWizard();
 }
@@ -1480,7 +1543,7 @@ function cerrarWizard(askConfirm) {
   document.getElementById('wizard').setAttribute('hidden', '');
   document.body.style.overflow = '';
   if (document.getElementById('paper').classList.contains('visible')) {
-    document.getElementById('action-bar').removeAttribute('hidden');
+    document.getElementById('action-fab').removeAttribute('hidden');
   }
 }
 
